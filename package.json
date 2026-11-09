@@ -3,9 +3,10 @@
     "version": "1.0.0",
     "main": "app.js",
     "scripts": {
-      "test": "node --test"
+        "test": "node --test"
     },
     "dependencies": {
-      "express": "^4.19.2"
+        "express": "^4.19.2",
+        "lodash": "^4.17.15"
     }
-  }
+}
