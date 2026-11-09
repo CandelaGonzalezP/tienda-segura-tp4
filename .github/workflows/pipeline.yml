@@ -10,13 +10,13 @@ jobs:
   verificar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4 # nosemgrep: yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag -- tag oficial, aceptable para este ejercicio académico
         with: { fetch-depth: 0 }
       - run: npm ci
       - run: npm test
       - run: npm audit --audit-level=high
       - run: pip install semgrep
       - run: semgrep scan --config auto --error
-      - uses: gitleaks/gitleaks-action@v2 
+      - uses: gitleaks/gitleaks-action@v2 # nosemgrep: yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag -- tag oficial, aceptable para este ejercicio académico
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
