@@ -13,5 +13,8 @@ COPY . .
 # Exponer el puerto (por convención de Express)
 EXPOSE 3000
 
+# Cambiar a un usuario sin privilegios por seguridad
+USER node
+
 # Comando para iniciar la app
 CMD ["node", "app.js"]
