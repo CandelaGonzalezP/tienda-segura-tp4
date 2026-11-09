@@ -1,11 +1,8 @@
 {
-    "name": "tienda-segura",
+    "name": "tienda-segura-tp4",
     "version": "1.0.0",
-    "description": "App chica de ejemplo (TP4 - Integración Continua) para practicar un pipeline de GitHub Actions con gates de seguridad.",
     "main": "app.js",
-    "type": "commonjs",
     "scripts": {
-      "start": "node app.js",
       "test": "node --test"
     },
     "dependencies": {
