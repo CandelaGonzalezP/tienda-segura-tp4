@@ -1,0 +1,58 @@
+name: Retos extra - Escaneo de contenedor y DAST
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  trivy-container:
+    name: "Reto 2 - Trivy (contenedor + Dockerfile)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir la imagen
+        run: docker build -t tienda-segura:ci .
+
+      - name: Escanear la imagen con Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'tienda-segura:ci'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Escanear el Dockerfile (misconfiguration) con Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
+  zap-dast:
+    name: "Reto 3 - OWASP ZAP (DAST, manual)"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Levantar la app en segundo plano
+        run: nohup node app.js &
+
+      - name: Esperar a que la app levante
+        run: sleep 3
+
+      - name: Escaneo baseline de ZAP
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:3000'
